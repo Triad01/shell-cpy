@@ -35,7 +35,6 @@ int _myexit(info_t *info)
 
 	return result;
 }
-#include "shell.h"
 
 /**
  * _mycd - changes the current directory of the process

@@ -1,3 +1,4 @@
+#include "shell.h"
 /**
  * _strcpy - copies a string
  * @dest: the destination
@@ -7,10 +8,12 @@
  */
 char *_strcpy(char *dest, char *src)
 {
+	int i;
+
 	if (dest == src || src == 0)
 		return dest;
 
-	for (int i = 0; src[i]; i++)
+	for (i = 0; src[i]; i++)
 	{
 		dest[i] = src[i];
 	}

@@ -11,8 +11,6 @@ int _myenv(info_t *info)
 	print_list_str(info->env);
 	return (0);
 }
-#include "shell.h"
-
 /**
  * _getenv - gets the value of an environ variable
  * @info: Structure containing potential arguments.
@@ -34,7 +32,6 @@ char *_getenv(info_t *info, const char *name)
 
 	return NULL;
 }
-#include "shell.h"
 
 /**
  * _mysetenv - Initialize a new environment variable,
@@ -58,7 +55,6 @@ int _mysetenv(info_t *info)
 			return 1;
 	}
 }
-#include "shell.h"
 
 /**
  * _myunsetenv - Remove an environment variable
@@ -84,7 +80,6 @@ int _myunsetenv(info_t *info)
 
 	return 0;
 }
-#include "shell.h"
 
 /**
  * populate_env_list - populates env linked list

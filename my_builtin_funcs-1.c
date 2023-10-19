@@ -108,66 +108,39 @@ int print_alias(list_t *node)
  */
 int _myalias(info_t *info)
 {
-	int i = 0;
+	int i = 1;  // Start from the second argument (argv[1])
 	char *p = NULL;
-	list_t *node = NULL;
 
 	if (info->argc == 1)
 	{
-		node = info->alias;
+		list_t *node = info->alias;
 		while (node)
 		{
-			switch (info->alias[i])
-			{
-				case '=':
-					_putchar('\'');
-					break;
-				default:
-					_putchar(info->alias[i]);
-			}
-			if (info->alias[i] == '\n')
-				_putchar('\'');
-			i++;
+			print_alias(node);
+			node = node->next;
 		}
 		return 0;
 	}
 
-	for (i = 1; info->argv[i]; i++)
+	while (info->argv[i])
 	{
 		p = _strchr(info->argv[i], '=');
+
 		if (p)
 		{
 			set_alias(info, info->argv[i]);
 		}
 		else
 		{
-			node = info->alias;
-			while (node)
+			list_t *alias_node = node_starts_with(info->alias, info->argv[i], '=');
+			if (alias_node)
 			{
-				int len = 0;
-				while (info->argv[i][len] && info->argv[i][len] != '=')
-					len++;
-				if (len > 0 && _strncmp(node->str, info->argv[i], len) == 0 && node->str[len] == '=')
-				{
-					while (node->str[len] != '\0')
-					{
-						switch (node->str[len])
-						{
-							case '=':
-								_putchar('\'');
-								break;
-							default:
-								_putchar(node->str[len]);
-						}
-						len++;
-					}
-					_putchar('\n');
-					break;
-				}
-				node = node->next;
+				print_alias(alias_node);
 			}
 		}
+		i++;
 	}
 
 	return 0;
 }
+

@@ -23,7 +23,6 @@ int is_cmd(info_t *info, char *path)
 			return 0;
 	}
 }
-#include "shell.h"
 
 /**
  * dup_chars - duplicates characters
@@ -47,7 +46,6 @@ char *dup_chars(char *pathstr, int start, int stop)
 	buf[k] = 0;
 	return buf;
 }
-#include "shell.h"
 
 /**
  * find_path - finds this cmd in the PATH string

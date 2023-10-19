@@ -42,7 +42,6 @@ int is_chain(info_t *info, char *buf, size_t *p)
 	*p = j;
 	return 1;
 }
-#include "shell.h"
 
 /**
  * check_chain - checks if we should continue chaining based on the last status
@@ -78,7 +77,6 @@ void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
 
 	*p = j;
 }
-#include "shell.h"
 
 /**
  * replace_alias - replaces aliases in the tokenized string
@@ -113,7 +111,6 @@ int replace_alias(info_t *info)
 
 	return 1;
 }
-#include "shell.h"
 
 /**
  * replace_vars - replaces vars in the tokenized string

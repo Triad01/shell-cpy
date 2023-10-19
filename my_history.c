@@ -138,24 +138,11 @@ int build_history_list(info_t *info, char *buf, int linecount)
 {
 	list_t *node = info->history;
 
-	if (node)
-	{
-		while (node->next)
-		{
-			node = node->next;
-		}
-		node->next = create_node(buf, linecount);
-		if (node->next == NULL)
-			return (-1);
-	}
-	else
-	{
-		info->history = create_node(buf, linecount);
-		if (info->history == NULL)
-			return (-1);
-	}
+	add_node_end(&node, buf, linecount);
 
-	return (0);
+	info->history = node;
+
+	return 0;
 }
 /**
  * renumber_history - renumbers the history linked list after changes
