@@ -1,27 +1,22 @@
 #include "shell.h"
-/**
- * **strtow - splits a string into words. Repeat delimiters are ignored
- * @str: the input string
- * @d: the delimeter string
- * Return: a pointer to an array of strings, or NULL on failure
- */
-char **strtor(char *str, char *d);
-char **strtow(char *str, char *d)
+
+char **my_strtor(char *stry, char *dy);
+char **mystrtow(char *stry, char *dy)
 {
-	int i, j, k, m, numwords = 0;
-	char **s;
+	int in, jn, kn, mn, mynumwords = 0;
+	char **sn;
 
-	if (!str || !str[0])
-		return NULL;
+	if (!stry || !stry[0])
+		return (NULL);
 
-	if (!d)
-		d = " ";
+	if (!dy)
+		dy = " ";
 
-	i = 0;
-	while (str[i] != '\0')
+	in = 0;
+	while (stry[in] != '\0')
 	{
-		char current = str[i];
-		switch (current)
+		char mycurrent = stry[in];
+		switch (mycurrent)
 		{
 			case '\0':
 				break;
@@ -29,54 +24,54 @@ char **strtow(char *str, char *d)
 			case ' ':
 			case '\t':
 			case '\n':
-				while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-					i++;
+				while (stry[in] == ' ' || stry[in] == '\t' || stry[in] == '\n')
+					in++;
 				break;
 
 			default:
-				numwords++;
-				while (str[i] != ' ' && str[i] != '\t' && str[i] != '\n' && str[i] != '\0')
-					i++;
+				mynumwords++;
+				while (stry[in] != ' ' && stry[in] != '\t' && stry[in] != '\n' && stry[in] != '\0')
+					in++;
 				break;
 		}
 	}
 
-	if (numwords == 0)
+	if (mynumwords == 0)
+		return (NULL);
+
+	sn = malloc((1 + mynumwords) * sizeof(char *));
+	if (!sn)
 		return NULL;
 
-	s = malloc((1 + numwords) * sizeof(char *));
-	if (!s)
-		return NULL;
-
-	i = 0;
-	j = 0;
-	while (j < numwords)
+	in = 0;
+	jn = 0;
+	while (jn < mynumwords)
 	{
-		while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
-			i++;
+		while (stry[in] == ' ' || stry[in] == '\t' || stry[in] == '\n')
+			in++;
 
-		k = 0;
-		while (str[i + k] != ' ' && str[i + k] != '\t' && str[i + k] != '\n' && str[i + k] != '\0')
-			k++;
+		kn = 0;
+		while (stry[in + kn] != ' ' && stry[in + kn] != '\t' && stry[in + kn] != '\n' && stry[in + kn] != '\0')
+			kn++;
 
-		s[j] = malloc((k + 1) * sizeof(char));
-		if (!s[j])
+		sn[jn] = malloc((kn + 1) * sizeof(char));
+		if (!sn[jn])
 		{
-			for (k = 0; k < j; k++)
-				free(s[k]);
-			free(s);
+			for (kn = 0; kn < jn; kn++)
+				free(sn[kn]);
+			free(sn);
 			return NULL;
 		}
 
-		for (m = 0; m < k; m++)
-			s[j][m] = str[i++];
+		for (mn = 0; mn < kn; mn++)
+			sn[jn][mn] = stry[in++];
 
-		s[j][m] = '\0';
-		j++;
+		sn[jn][mn] = '\0';
+		jn++;
 	}
 
-	s[j] = NULL;
-	return s;
+	sn[jn] = NULL;
+	return sn;
 }
 
 /**
