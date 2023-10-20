@@ -20,7 +20,7 @@ int my_unsetenv(info_t *inf, char *myvarable)
 {
 	size_t o;
 	char *p;
-	list_t *noder = inf->my_env;
+	list_t *noder;
 
 	if (!inf->my_env || !myvarable)
 		return (0);
@@ -29,9 +29,7 @@ int my_unsetenv(info_t *inf, char *myvarable)
 	if (!inf->my_env || !myvarable)
 		return (0);
 
-	o = 0;
-	list_t *noder = inf->my_env;
-	char *p;
+	noder = inf->my_env;
 
 	for (o = 0; noder; noder = noder->nexts, o++)
 	{
@@ -55,7 +53,6 @@ int my_unsetenv(info_t *inf, char *myvarable)
  */
 int my_setenv(info_t *inf, char *variable, char *valueable)
 {
-	size_t o;
 	char *buffer = NULL;
 	char *point;
 	size_t o;
@@ -71,7 +68,7 @@ int my_setenv(info_t *inf, char *variable, char *valueable)
 	my_strcat(buffer, "=");
 	my_strcat(buffer, valueable);
 
-	*noder = inf->my_env;
+	noder = inf->my_env;
 
 	for (o = 0; noder; noder = noder->nexts, o++)
 	{
