@@ -1,5 +1,8 @@
 #include "shell.h"
-
+/**
+ *my_eputs - prints an input string to stdout
+ * @strings: the string to be printed
+ */
 void my_eputs(char *strings)
 {
 	int a = 0;
@@ -19,7 +22,11 @@ void my_eputs(char *strings)
 		a++;
 	}
 }
-
+/**
+ * my_eputchar - writes the character to stderr
+ * @cha: The character to print
+ * Return: always an integer.
+ */
 int my_eputchar(char cha)
 {
 	static int a;
@@ -41,7 +48,12 @@ int my_eputchar(char cha)
 	}
 	return (1);
 }
-
+/**
+ * my_putfd - writes the character to fid
+ * @cha: The character to be writte
+ * @fid: filedescriptor to write to
+ * Return: always an integer
+ */
 int my_putfd(char cha, int fid)
 {
 	static int a;
@@ -63,13 +75,18 @@ int my_putfd(char cha, int fid)
 	}
 	return (1);
 }
-
+/**
+ * my_putsfd - prints an input string to stdout
+ * @strings: the string to be printed
+ * @fid: the filedescriptor to write to
+ * Return: always an integer
+ */
 int my_putsfd(char *strings, int fid)
 {
 	int a = 0;
 
 	if (!strings)
-		return 0;
+		return (0);
 
 	for (a = 0; strings[a] != '\0'; a++)
 	{

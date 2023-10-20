@@ -6,7 +6,7 @@ int my_iscmd(info_t *inf, char *mypath)
 
 	(void)inf;
 
-	if (!mypath || my_stat(mypath, &stats))
+	if (!mypath || stat(mypath, &stats))
 		return (0);
 
 	switch (stats.st_mode & S_IFMT)

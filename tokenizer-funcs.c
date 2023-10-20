@@ -1,6 +1,5 @@
 #include "shell.h"
 
-char **my_strtor(char *stry, char *dy);
 char **mystrtow(char *stry, char *dy)
 {
 	int in, jn, kn, mn, mynumwords = 0;

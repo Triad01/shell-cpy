@@ -1,6 +1,6 @@
 #include "shell.h"
 
-char **my_getenviroment(info_t *inf)
+char **my_getenvironment(info_t *inf)
 {
 	inf->my_envir = my_listtostrings(inf->my_env);
 
@@ -18,7 +18,7 @@ int my_unsetenv(info_t *inf, char *myvarable)
 
 	for (o = 0; noder; noder = noder->nexts, o++)
 	{
-		p = my_startwith(noder->string, myvarable);
+		p = my_startswith(noder->string, myvarable);
 		if (p && *p == '=')
 		{
 			inf->myenv_change = my_delete(&(inf->my_env), o);
@@ -30,7 +30,7 @@ int my_unsetenv(info_t *inf, char *myvarable)
 	return inf->myenv_change;
 }
 
-int my_setenver(info_t *inf, char *variable, char *valueable)
+int my_setenv(info_t *inf, char *variable, char *valueable)
 {
 	char *buffer = NULL;
 	char *point;

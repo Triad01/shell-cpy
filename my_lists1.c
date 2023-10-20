@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * my_listlen - checks length of of a singly linked list
+ * @hd: pointer to the first node in the list
+ * Return: size of list
+ */
 size_t my_listlen(const list_t *hd)
 {
 	size_t a = 0;
@@ -11,7 +15,11 @@ size_t my_listlen(const list_t *hd)
 
 	return (a);
 }
-
+/**
+ * my_listtostrings - returns an array of strings of the linked list
+ * @hd: pointer to the first node in the list
+ * Return: always an character array of strings
+ */
 char **my_listtostrings(list_t *hd)
 {
 	list_t *noder = hd;
@@ -27,9 +35,8 @@ char **my_listtostrings(list_t *hd)
 		return (NULL);
 
 	a = 0;
-	do
-	{
-		stri = malloc(_strlen(noder->string) + 1);
+	do {
+		stri = malloc(my_strlen(noder->string) + 1);
 		if (!stri)
 		{
 			for (b = 0; b < a; b++)
@@ -47,7 +54,11 @@ char **my_listtostrings(list_t *hd)
 	strcs[a] = NULL;
 	return (strcs);
 }
-
+/**
+ * my_printlist - prints all the elements of a list_t linked list
+ * @hd: A pointer to first node
+ * Return: signed integer
+ */
 size_t my_printlist(const list_t *hd)
 {
 	size_t a = 0;
@@ -55,8 +66,7 @@ size_t my_printlist(const list_t *hd)
 	if (!hd)
 		return (a);
 
-	do
-	{
+	do {
 		my_puts(my_convertnumber(hd->number, 10, 0));
 		my_putchar(':');
 		my_putchar(' ');
@@ -68,25 +78,35 @@ size_t my_printlist(const list_t *hd)
 
 	return (a);
 }
-
+/**
+ * my_nodestartswith - returns node whose starting as prefix
+ * @noder: pointer to list head
+ * @pref: string to be matched
+ * @cha: the next char after prefix to be matched
+ * Return: match node of list_t data type
+ */
 list_t *my_nodestartswith(list_t *noder, char *pref, char cha)
 {
 	char *point = NULL;
 
 	if (!noder)
-		return NULL;
+		return (NULL);
 
-	do
-	{
+	do {
 		point = my_startswith(noder->string, pref);
 		if (point && ((cha == -1) || (*point == cha)))
-			return noder;
+			return (noder);
 		noder = noder->nexts;
 	} while (noder);
 
 	return (NULL);
 }
-
+/**
+ * my_getnodeindex - gets the index of a particular node
+ * @hd: pointer to list head
+ * @noder: pointer to the node
+ * Return: index of node -1 (signed integer)
+ */
 ssize_t my_getnodeindex(list_t *hd, list_t *noder)
 {
 	size_t a = 0;

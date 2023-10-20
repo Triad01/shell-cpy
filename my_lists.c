@@ -67,7 +67,7 @@ size_t my_printliststr(const list_t *had)
 
 	for (; had; had = had->nexts)
 	{
-		mu_puts(had->string ? had->string : "(nil)");
+		my_puts(had->string ? had->string : "(nil)");
 		my_puts("\n");
 		a++;
 	}

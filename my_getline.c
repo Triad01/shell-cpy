@@ -10,7 +10,7 @@ ssize_t my_inputbuffers(info_t *inf, char **buffer, size_t *length)
 	case 0:
 		free(*buffer);
 		*buffer = NULL;
-		signal(SIGINT, my_siginthandler);
+		signal(SIGINT, my_sigintHandler);
 
 #if MYUSE_GETLINER
 		real = getline(buffer, &len_pointer, stdin);
@@ -131,7 +131,7 @@ int my_getline(info_t *inf, char **pointer, size_t *len)
 
 	d = my_strchr(buffer + a, '\n');
 	b = d ? 1 + (unsigned int)(d - buffer) : length;
-	mynew_point = _realloc(point, c, c ? c + b : b + 1);
+	mynew_point = my_realloc(point, c, c ? c + b : b + 1);
 
 	switch (!mynew_point)
 	{

@@ -1,5 +1,8 @@
 #include "shell.h"
-
+/**
+ * my_clearinfo - will initialize the info_t struct
+ * @inf: contains struct address
+ */
 void my_clearinfo(info_t *inf)
 {
 	inf->argsm = NULL;
@@ -7,7 +10,11 @@ void my_clearinfo(info_t *inf)
 	inf->my_path = NULL;
 	inf->my_argc = 0;
 }
-
+/**
+ * my_setinfo - will initialize the info_t struct
+ * @inf: the struct address
+ * @avs: argument vector
+ */
 void my_setinfo(info_t *inf, char **avs)
 {
 	int a = 0;
@@ -15,13 +22,13 @@ void my_setinfo(info_t *inf, char **avs)
 	inf->my_f_name = avs[0];
 	if (inf->argsm)
 	{
-		inf->my_argv = strtow(inf->argsm, " \t");
+		inf->my_argv = mystrtow(inf->argsm, " \t");
 		if (!inf->my_argv)
 		{
 			inf->my_argv = malloc(sizeof(char *) * 2);
 			if (inf->my_argv)
 			{
-				inf->my_argv[0] = _strdup(inf->argsm);
+				inf->my_argv[0] = my_strdup(inf->argsm);
 				inf->my_argv[1] = NULL;
 			}
 		}
@@ -48,10 +55,14 @@ void my_setinfo(info_t *inf, char **avs)
 		}
 	}
 }
-
+/**
+ * my_freeinfo - frees info_t struct
+ * @inf: struct address
+ * @al: true if all fields freed
+ */
 void my_freeinfo(info_t *inf, int al)
 {
-	ffree(inf->my_argv);
+	my_ffree(inf->my_argv);
 	inf->my_argv = NULL;
 	inf->my_path = NULL;
 
@@ -68,10 +79,10 @@ void my_freeinfo(info_t *inf, int al)
 				my_freelist(&(inf->my_alias));
 			my_ffree(inf->my_envir);
 			inf->my_envir = NULL;
-			bfree((void **)inf->mycmduf);
+			my_bfree((void **)inf->mycmduf);
 			if (inf->reader > 2)
 				close(inf->reader);
-			_putchar(MYBUFLUSH);
+			my_putchar(MYBUFLUSH);
 			break;
 		default:
 			break;

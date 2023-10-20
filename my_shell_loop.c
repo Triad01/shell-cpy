@@ -102,7 +102,7 @@ void my_findcmd(info_t *inf)
 
 	while (inf->argsm[in])
 	{
-		switch (!my_isdelim(inf->argsm[in], " \t\n"))
+		switch (!my_isdelimeter(inf->argsm[in], " \t\n"))
 		{
 			case 1:
 				ki++;
@@ -117,11 +117,11 @@ void my_findcmd(info_t *inf)
 			return;
 	}
 
-	pathers = my_findpath(inf, _getenv(inf, "PATH="), inf->my_argv[0]);
+	pathers = my_findpath(inf, my_getenv(inf, "PATH="), inf->my_argv[0]);
 	if (pathers)
 	{
 		inf->my_path = pathers;
-		fork_cmd(inf);
+		my_forkcmd(inf);
 	}
 	else
 	{
@@ -154,7 +154,7 @@ void my_forkcmd(info_t *inf)
 			return;
 
 		case 0:
-			if (execve(inf->my_path, inf->my_argv, my_getenviron(inf)) == -1)
+			if (execve(inf->my_path, inf->my_argv, my_getenvironment(inf)) == -1)
 			{
 				my_freeinfo(inf, 1);
 				switch (errno)
@@ -170,7 +170,7 @@ void my_forkcmd(info_t *inf)
 
 		default:
 			wait(&(inf->my_status));
-			if (WIFEXITED(info->status))
+			if (WIFEXITED(inf->my_status))
 			{
 				inf->my_status = WEXITSTATUS(inf->my_status);
 				switch (inf->my_status)

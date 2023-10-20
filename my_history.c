@@ -7,7 +7,7 @@ char *my_gethistoryfile(info_t *inf)
 	if (!direct)
 		return NULL;
 
-	char *buff = malloc(_strlen(direct) + _strlen(MYHISTFILE) + 2);
+	char *buff = malloc(my_strlen(direct) + my_strlen(MYHISTFILE) + 2);
 	if (!buff)
 		return NULL;
 
@@ -60,7 +60,7 @@ int read_history(info_t *inf)
 	if (fid == -1)
 		return (0);
 
-	if (!fstat(fid, &stat))
+	if (!fstat(fid, &stats))
 		myf_size = stats.st_size;
 
 	if (myf_size < 2)

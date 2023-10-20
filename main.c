@@ -30,7 +30,7 @@ int main(int ac, char **avs)
 		inf.reader = fid;
 	}
 	my_populateenvlist(&inf);
-	my_readhistory(&inf);
+	read_history(&inf);
 	my_hsh(&inf, avs);
 
 	return (EXIT_SUCCESS);
