@@ -1,11 +1,19 @@
 #include "shell.h"
 
+/**
+ * myaddnode - entry
+ * @hd: head
+ * @string: strings
+ * @nums: number
+ * Return: mynewhead
+ */
 list_t *myaddnode(list_t **hd, const char *string, int nums)
 {
 	if (!hd)
 		return (NULL);
 
 	list_t *mynewhead = malloc(sizeof(list_t));
+
 	if (!mynewhead)
 		return (NULL);
 
@@ -27,7 +35,13 @@ list_t *myaddnode(list_t **hd, const char *string, int nums)
 
 	return (mynewhead);
 }
-
+/**
+ * my_addnodeend - entry
+ * @hd: head
+ * @strings: string
+ * @nums: numbers
+ * Return: 1 0r 0
+ */
 list_t *my_addnodeend(list_t **hd, const char *strings, int nums)
 {
 	list_t *mynewnode, *noder;
@@ -60,7 +74,11 @@ list_t *my_addnodeend(list_t **hd, const char *strings, int nums)
 		*hd = mynewnode;
 	return (mynewnode);
 }
-
+/**
+ * my_printliststr - entry
+ * @had: head
+ * Return: a
+ */
 size_t my_printliststr(const list_t *had)
 {
 	size_t a = 0;
@@ -74,7 +92,12 @@ size_t my_printliststr(const list_t *had)
 
 	return (a);
 }
-
+/**
+ * my_delete - entry point
+ * @hd: head
+ * @ind: integer
+ * Return: 1 0r 0
+ */
 int my_delete(list_t **hd, unsigned int ind)
 {
 	list_t *noder, *myprev_noder = NULL;
@@ -109,7 +132,10 @@ int my_delete(list_t **hd, unsigned int ind)
 
 	return (0);
 }
-
+/**
+ * my_freelist - entry
+ * @hd_pt: head pointer
+ */
 void my_freelist(list_t **hd_pt)
 {
 	list_t *noder, *mynext_noder, *myhd;

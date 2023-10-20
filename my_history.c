@@ -1,23 +1,33 @@
 #include "shell.h"
-
+/**
+ * my_gethistoryfile - entry
+ * @inf: information
+ * Return: NULL or BUff
+ */
+char *my_gethistoryfile(info_t *inf);
 char *my_gethistoryfile(info_t *inf)
 {
 	char *direct = my_getenv(inf, "HOME=");
 
 	if (!direct)
-		return NULL;
+		return (NULL);
 
 	char *buff = malloc(my_strlen(direct) + my_strlen(MYHISTFILE) + 2);
+
 	if (!buff)
-		return NULL;
+		return (NULL);
 
 	my_strcpy(buff, direct);
 	my_strcat(buff, "/");
 	my_strcat(buff, MYHISTFILE);
 
-	return buff;
+	return (buff);
 }
-
+/**
+ * my_writehistory - entry
+ * @inf: infomation
+ * Return: 1 or 0
+ */
 int my_writehistory(info_t *inf)
 {
 	ssize_t fid;
@@ -31,7 +41,7 @@ int my_writehistory(info_t *inf)
 	free(file_names);
 
 	if (fid == -1)
-		return -1;
+		return (-1);
 
 	do {
 		my_putsfd(noder->string, fid);
@@ -44,7 +54,12 @@ int my_writehistory(info_t *inf)
 
 	return (1);
 }
-
+/**
+ * read_history - history entry
+ * @inf: history information
+ * Return: 1 or 0
+ */
+int read_history(info_t *inf);
 int read_history(info_t *inf)
 {
 	int a, mylast = 0, myline_count = 0;
@@ -112,7 +127,13 @@ int read_history(info_t *inf)
 	my_renumberhistory(inf);
 	return (inf->hcount);
 }
-
+/**
+ * my_buildhistorylist - entry
+ * @inf: info build
+ * @buffer: buffer
+ * @myline_count: count line
+ * Return: 0 or 1
+ */
 int my_buildhistorylist(info_t *inf, char *buffer, int myline_count)
 {
 	list_t *noder = inf->my_history;
@@ -123,7 +144,11 @@ int my_buildhistorylist(info_t *inf, char *buffer, int myline_count)
 
 	return (0);
 }
-
+/**
+ * my_renumberhistory - enter
+ * @inf: remmenber info
+ * Return: hcount
+ */
 int my_renumberhistory(info_t *inf)
 {
 	list_t *noder = inf->my_history;
@@ -131,8 +156,7 @@ int my_renumberhistory(info_t *inf)
 
 	if (noder)
 	{
-		do
-		{
+		do {
 			noder->number = a++;
 			noder = noder->nexts;
 		} while (noder);

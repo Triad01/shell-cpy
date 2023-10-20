@@ -1,11 +1,20 @@
 #include "shell.h"
-
+/**
+ * my_myenv - entry
+ * @inf: info
+ * Return: 1 or 0
+ */
 int my_myenv(info_t *inf)
 {
 	my_printliststr(inf->my_env);
 	return (0);
 }
-
+/**
+ * my_getenv - entry
+ * @inf: info
+ * @nam: nam
+ * Return: pointer
+ */
 char *my_getenv(info_t *inf, const char *nam)
 {
 	list_t *noder = inf->my_env;
@@ -16,13 +25,17 @@ char *my_getenv(info_t *inf, const char *nam)
 		point = my_startswith(noder->string, nam);
 		if (point && *point)
 		{
-			return point;
+			return (point);
 		}
 	}
 
-	return NULL;
+	return (NULL);
 }
-
+/**
+ * my_mysetenv - entry
+ * @inf: info
+ * Return: 1 or 0
+ */
 int my_mysetenv(info_t *inf)
 {
 	switch (inf->my_argc)
@@ -42,7 +55,11 @@ int my_mysetenv(info_t *inf)
 		return (1);
 	}
 }
-
+/**
+ * my_myunsetenv - entry
+ * @inf: info
+ * Return: 1 or 0
+ */
 int my_myunsetenv(info_t *inf)
 {
 	int a = 1;
@@ -61,7 +78,11 @@ int my_myunsetenv(info_t *inf)
 
 	return (0);
 }
-
+/**
+ * my_populateenvlist - entry
+ * @inf: info
+ * Return: 1 or 0
+ */
 int my_populateenvlist(info_t *inf)
 {
 	list_t *noder = NULL;

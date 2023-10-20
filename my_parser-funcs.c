@@ -1,5 +1,10 @@
 #include "shell.h"
-
+/**
+ * my_iscmd - entry
+ * @inf: info
+ * @mypath: my path
+ * Return: 0 or 1
+ */
 int my_iscmd(info_t *inf, char *mypath)
 {
 	struct stat stats;
@@ -17,7 +22,13 @@ int my_iscmd(info_t *inf, char *mypath)
 		return (0);
 	}
 }
-
+/**
+ * my_dupchars - entry
+ * @mypathstring: path strings
+ * @mystart: strings start
+ * @mystop: my stop
+ * Return: buffer
+ */
 char *my_dupchars(char *mypathstring, int mystart, int mystop)
 {
 	static char buffer[1024];
@@ -34,7 +45,13 @@ char *my_dupchars(char *mypathstring, int mystart, int mystop)
 	buffer[ki] = 0;
 	return (buffer);
 }
-
+/**
+ * my_findpath - entry
+ * @myinfo: infomate
+ * @mypathstr: path
+ * @mycmd: command
+ * Return: NULL
+ */
 char *my_findpath(info_t *myinfo, char *mypathstr, char *mycmd)
 {
 	int a;
