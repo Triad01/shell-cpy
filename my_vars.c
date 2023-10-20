@@ -1,175 +1,138 @@
 #include "shell.h"
 
-/**
- * is_chain - test if current char in buffer is a chain delimiter
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
- *
- * Return: 1 if chain delimiter, 0 otherwise
- */
-int is_chain(info_t *info, char *buf, size_t *p)
+int my_ischain(info_t *infos, char *buffs, size_t *pin)
 {
-	size_t j = *p;
-	char currentChar = buf[j];
+	size_t a = *pin;
+	char my_currentChar = buffs[a];
 
-	switch (currentChar)
+	switch (my_currentChar)
 	{
 		case '|':
-			if (buf[j + 1] == '|')
+			if (buffs[a + 1] == '|')
 			{
-				buf[j] = 0;
-				j++;
-				info->cmd_buf_type = CMD_OR;
+				buffs[a] = 0;
+				a++;
+				infos->cmdtype = MYCMDOR;
 			}
 			break;
 		case '&':
-			if (buf[j + 1] == '&')
+			if (buffs[a + 1] == '&')
 			{
-				buf[j] = 0;
-				j++;
-				info->cmd_buf_type = CMD_AND;
+				buffs[a] = 0;
+				a++;
+				infos->cmdtype = MYCMDAND;
 			}
 			break;
 		case ';':
-			buf[j] = 0;
-			info->cmd_buf_type = CMD_CHAIN;
+			buffs[a] = 0;
+			infos->cmdtype = MYCMDCHAIN;
 			break;
 		default:
-			return 0;
+			return (0);
 	}
 
-	*p = j;
-	return 1;
+	*pin = a;
+	return (1);
 }
 
-/**
- * check_chain - checks if we should continue chaining based on the last status
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of the current position in buf
- * @i: starting position in buf
- * @len: length of buf
- *
- * Return: Void
- */
-void check_chain(info_t *info, char *buf, size_t *p, size_t i, size_t len)
+void my_checkchain(info_t *inf, char *buffs, size_t *pin, size_t in, size_t length)
 {
-	size_t j = *p;
+	size_t a = *pin;
 
-	switch (info->cmd_buf_type)
+	switch (inf->cmdtype)
 	{
-		case CMD_AND:
-			if (info->status)
-			{
-				buf[i] = 0;
-				j = len;
-			}
-			break;
-		case CMD_OR:
-			if (!info->status)
-			{
-				buf[i] = 0;
-				j = len;
-			}
-			break;
+	case MYCMDAND:
+		if (inf->my_status)
+		{
+			buffs[in] = 0;
+			a = length;
+		}
+		break;
+	case MYCMDOR:
+		if (!inf->my_status)
+		{
+			buffs[in] = 0;
+			a = length;
+		}
+		break;
 	}
 
-	*p = j;
+	*pin = a;
 }
 
-/**
- * replace_alias - replaces aliases in the tokenized string
- * @info: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
- */
-int replace_alias(info_t *info)
+int my_replacealias(info_t *inf)
 {
-	int i = 0;
-	list_t *node;
-	char *p;
+	int in = 0;
+	list_t *noder;
+	char *pin;
 
 	do
 	{
-		node = node_starts_with(info->alias, info->argv[0], '=');
-		if (!node)
-			return 0;
+		noder = my_nodestartswith(inf->my_alias, inf->my_argv[0], '=');
+		if (!noder)
+			return (0);
 
-		free(info->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
-			return 0;
+		free(inf->my_argv[0]);
+		pin = my_strchr(noder->string, '=');
+		if (!pin)
+			return (0);
 
-		p = _strdup(p + 1);
-		if (!p)
-			return 0;
+		pin = my_strdup(pin + 1);
+		if (!pin)
+			return (0);
 
-		info->argv[0] = p;
-		i++;
-	} while (i < 10);
+		inf->my_argv[0] = pin;
+		in++;
+	} while (in < 10);
 
-	return 1;
+	return (1);
 }
 
-/**
- * replace_vars - replaces vars in the tokenized string
- * @info: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
- */
-int replace_vars(info_t *info)
+int my_replacevars(info_t *infos)
 {
-	int i = 0;
-	list_t *node;
+	int in = 0;
+	list_t *noder;
 
-	while (info->argv[i])
+	while (infos->my_argv[in])
 	{
-		if (info->argv[i][0] != '$' || !info->argv[i][1])
+		if (infos->my_argv[in][0] != '$' || !infos->my_argv[in][1])
 		{
-			i++;
+			in++;
 			continue;
 		}
 
-		switch (info->argv[i][1])
+		switch (infos->my_argv[in][1])
 		{
-			case '?':
-				replace_string(&(info->argv[i]),
-						_strdup(convert_number(info->status, 10, 0)));
-				break;
-			case '$':
-				replace_string(&(info->argv[i]),
-						_strdup(convert_number(getpid(), 10, 0)));
-				break;
-			default:
-				node = node_starts_with(info->env, &(info->argv[i][1]), '=');
-				if (node)
-				{
-					replace_string(&(info->argv[i]),
-							_strdup(_strchr(node->str, '=') + 1));
-				}
-				else
-				{
-					replace_string(&(info->argv[i]), _strdup(""));
-				}
+		case '?':
+			my_replacestring(&(infos->my_argv[in]),
+							 my_strdup(my_convertnumber(infos->my_status, 10, 0)));
+			break;
+		case '$':
+			my_replacestring(&(infos->my_argv[in]),
+							 my_strdup(my_convertnumber(getpid(), 10, 0)));
+			break;
+		default:
+			noder = my_nodestartswith(infos->my_env, &(infos->my_argv[in][1]), '=');
+			if (noder)
+			{
+				my_replacestring(&(infos->my_argv[in]),
+								 my_strdup(my_strchr(noder->string, '=') + 1));
+			}
+			else
+			{
+				my_replacestring(&(infos->my_argv[in]), my_strdup(""));
+			}
 		}
 
-		i++;
+		in++;
 	}
 
-	return 0;
+	return (0);
 }
 
-/**
- * replace_string - replaces string
- * @old: address of old string
- * @new: new string
- *
- * Return: 1 if replaced, 0 otherwise
- */
-int replace_string(char **old, char *new)
+int my_replacestring(char **older, char *newer)
 {
-	free(*old);
-	*old = new;
+	free(*older);
+	*older = newer;
 	return (1);
 }

@@ -1,102 +1,77 @@
 #include "shell.h"
 
-/**
- * _myenv - prints the current environment
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
- */
-int _myenv(info_t *info)
+int my_myenv(info_t *inf)
 {
-	print_list_str(info->env);
+	my_printliststr(inf->my_env);
 	return (0);
 }
-/**
- * _getenv - gets the value of an environ variable
- * @info: Structure containing potential arguments.
- * @name: env var name
- *
- * Return: the value
- */
-char *_getenv(info_t *info, const char *name)
-{
-	list_t *node = info->env;
-	char *p;
 
-	for (; node; node = node->next) {
-		p = starts_with(node->str, name);
-		if (p && *p) {
-			return p;
+char *my_getenv(info_t *inf, const char *nam)
+{
+	list_t *noder = inf->my_env;
+	char *point;
+
+	for (; noder; noder = noder->nexts)
+	{
+		point = my_startswith(noder->string, nam);
+		if (point && *point)
+		{
+			return point;
 		}
 	}
 
 	return NULL;
 }
 
-/**
- * _mysetenv - Initialize a new environment variable,
- *             or modify an existing one
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- * Return: Always 0
- */
-int _mysetenv(info_t *info)
+int my_mysetenv(info_t *inf)
 {
-	switch (info->argc) {
-		case 3:
-			if (_setenv(info, info->argv[1], info->argv[2])) {
-				return 0;
-			} else {
-				return 1;
-			}
-			break;
-		default:
-			_eputs("Incorrect number of arguments\n");
-			return 1;
+	switch (inf->my_argc)
+	{
+	case 3:
+		if (my_setenv(inf, inf->my_argv[1], inf->my_argv[2]))
+		{
+			return (0);
+		}
+		else
+		{
+			return (1);
+		}
+		break;
+	default:
+		my_eputs("Incorrect number of arguments\n");
+		return (1);
 	}
 }
 
-/**
- * _myunsetenv - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- * Return: Always 0
- */
-int _myunsetenv(info_t *info)
+int my_myunsetenv(info_t *inf)
 {
-	int i = 1;
+	int a = 1;
 
-	if (info->argc == 1)
+	if (inf->my_argc == 1)
 	{
-		_eputs("Too few arguments.\n");
-		return 1;
+		my_eputs("Too few arguments.\n");
+		return (1);
 	}
 
-	while (i <= info->argc)
+	while (a <= inf->my_argc)
 	{
-		_unsetenv(info, info->argv[i]);
-		i++;
+		my_unsetenv(inf, inf->my_argv[a]);
+		a++;
 	}
 
-	return 0;
+	return (0);
 }
 
-/**
- * populate_env_list - populates env linked list
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
- */
-int populate_env_list(info_t *info)
+int my_populateenvlist(info_t *inf)
 {
-	list_t *node = NULL;
-	size_t i = 0;
+	list_t *noder = NULL;
+	size_t a = 0;
 
 	do {
-		add_node_end(&node, environ[i], 0);
-		i++;
-	} while (environ[i]);
+		my_addnodeend(&noder, environ[a], 0);
+		a++;
+	} while (environ[a]);
 
-	info->env = node;
-	return 0;
+	inf->my_env = noder;
+	return (0);
 }

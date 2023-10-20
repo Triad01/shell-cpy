@@ -1,72 +1,56 @@
 #include "shell.h"
-/**
- * _strncpy - copies a string
- * @dest: the destination string to be copied to
- * @src: the source string
- * @n: the amount of characters to be copied
- * Return: the concatenated string
- */
-char *_strncpy(char *dest, char *src, int n)
+
+char *my_strncpy(char *destin, char *source, int num)
 {
-    char *s = dest;
-    int i;
+    char *sy = destin;
+    int a;
 
-    for (i = 0; i < n - 1 && src[i] != '\0'; i++)
+    for (a = 0; a < num - 1 && source[a] != '\0'; a++)
     {
-        dest[i] = src[i];
+        destin[a] = source[a];
     }
 
-    for (; i < n; i++)
+    for (; a < num; a++)
     {
-        dest[i] = '\0';
+        destin[a] = '\0';
     }
 
-    return s;
+    return sy;
 }
-/**
- * _strncat - concatenates two strings
- * @dest: the first string
- * @src: the second string
- * @n: the amount of bytes to be maximally used
- * Return: the concatenated string
- */
-char *_strncat(char *dest, char *src, int n)
+
+char *my_strncat(char *destin, char *source, int num)
 {
-    char *s = dest;
-    int i, j;
+    char *sy = destin;
+    int a, b;
 
-    for (i = 0; dest[i] != '\0'; i++)
+    for (a = 0; destin[a] != '\0'; a++)
     {
-        /* Find the end of the destination string */
+        /* Finding  end of the destination string */
     }
 
-    for (j = 0; src[j] != '\0' && j < n; j++)
+    for (b = 0; source[b] != '\0' && b < num; b++)
     {
-        dest[i] = src[j];
-        i++;
+        destin[b] = source[b];
+        b++;
     }
 
-    if (j < n)
+    if (b < num)
     {
-        dest[i] = '\0';
+        destin[b] = '\0';
     }
 
-    return s;
+    return sy;
 }
-/**
- * _strchr - locates a character in a string
- * @s: the string to be parsed
- * @c: the character to look for
- * Return: (s) a pointer to the memory area s
- */
-char *_strchr(char *s, char c)
+
+char *my_strchr(char *sy, char cy)
 {
-    for (; *s != '\0'; s++) {
-        if (*s == c) {
-            return s;
+    for (; *sy != '\0'; sy++)
+    {
+        if (*sy == cy)
+        {
+            return sy;
         }
     }
 
     return NULL;
 }
-

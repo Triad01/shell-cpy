@@ -1,23 +1,16 @@
 #include "shell.h"
 
-/**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
- *
- * Return: 0 on success, 1 on error
- */
-int main(int ac, char **av)
+int main(int ac, char **avs)
 {
-	info_t info = INFO_INIT;
-	int fd = 2;
+	info_t inf = MYINFOINIT;
+	int fid = 2;
 
-	fd = fd + 3;
+	fid += 3;
 
 	if (ac == 2)
 	{
-		fd = open(av[1], O_RDONLY);
-		if (fd == -1)
+		fid = open(avs[1], O_RDONLY);
+		if (fid == -1)
 		{
 			if (errno == EACCES)
 			{
@@ -25,21 +18,21 @@ int main(int ac, char **av)
 			}
 			if (errno == ENOENT)
 			{
-				_eputs(av[0]);
-				_eputs(": 0:cannot open ");
-				_eputs(av[1]);
-				_eputchar('\n');
-				_eputchar(BUF_FLUSH);
+				my_eputs(avs[0]);
+				my_eputs(": 0:cannot open ");
+				my_eputs(avs[1]);
+				my_eputchar('\n');
+				my_eputchar(MYBUFLUSH);
 				exit(127);
 			}
-			return EXIT_FAILURE;
+			return (EXIT_FAILURE);
 		}
-		info.readfd = fd;
+		inf.reader = fid;
 	}
-	populate_env_list(&info);
-	read_history(&info);
-	hsh(&info, av);
+	my_populateenvlist(&inf);
+	my_readhistory(&inf);
+	my_hsh(&inf, avs);
 
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }
 

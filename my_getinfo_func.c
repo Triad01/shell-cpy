@@ -1,50 +1,41 @@
 #include "shell.h"
 
-/**
- * clear_info - initializes info_t struct
- * @info: struct address
- */
-void clear_info(info_t *info)
+void my_clearinfo(info_t *inf)
 {
-	info->arg = NULL;
-	info->argv = NULL;
-	info->path = NULL;
-	info->argc = 0;
+	inf->argsm = NULL;
+	inf->my_argv = NULL;
+	inf->my_path = NULL;
+	inf->my_argc = 0;
 }
 
-/**
- * set_info - initializes info_t struct
- * @info: struct address
- * @av: argument vector
- */
-void set_info(info_t *info, char **av)
+void my_setinfo(info_t *inf, char **avs)
 {
-	int i = 0;
+	int a = 0;
 
-	info->fname = av[0];
-	if (info->arg)
+	inf->my_f_name = avs[0];
+	if (inf->argsm)
 	{
-		info->argv = strtow(info->arg, " \t");
-		if (!info->argv)
+		inf->my_argv = strtow(inf->argsm, " \t");
+		if (!inf->my_argv)
 		{
-			info->argv = malloc(sizeof(char *) * 2);
-			if (info->argv)
+			inf->my_argv = malloc(sizeof(char *) * 2);
+			if (inf->my_argv)
 			{
-				info->argv[0] = _strdup(info->arg);
-				info->argv[1] = NULL;
+				inf->my_argv[0] = _strdup(inf->argsm);
+				inf->my_argv[1] = NULL;
 			}
 		}
 
-		while (info->argv && info->argv[i])
+		while (inf->my_argv && inf->my_argv[a])
 		{
-			i++;
+			a++;
 		}
-		info->argc = i;
+		inf->my_argc = a;
 
-		switch (replace_alias(info))
+		switch (my_replacealias(inf))
 		{
 			case 0:
-				switch (replace_vars(info))
+				switch (my_replacevars(inf))
 				{
 					case 0:
 						break;
@@ -58,34 +49,29 @@ void set_info(info_t *info, char **av)
 	}
 }
 
-/**
- * free_info - frees info_t struct fields
- * @info: struct address
- * @all: true if freeing all fields
- */
-void free_info(info_t *info, int all)
+void my_freeinfo(info_t *inf, int al)
 {
-	ffree(info->argv);
-	info->argv = NULL;
-	info->path = NULL;
+	ffree(inf->my_argv);
+	inf->my_argv = NULL;
+	inf->my_path = NULL;
 
-	switch (all)
+	switch (al)
 	{
 		case 1:
-			if (!info->cmd_buf)
-				free(info->arg);
-			if (info->env)
-				free_list(&(info->env));
-			if (info->history)
-				free_list(&(info->history));
-			if (info->alias)
-				free_list(&(info->alias));
-			ffree(info->environ);
-			info->environ = NULL;
-			bfree((void **)info->cmd_buf);
-			if (info->readfd > 2)
-				close(info->readfd);
-			_putchar(BUF_FLUSH);
+			if (!inf->mycmduf)
+				free(inf->argsm);
+			if (inf->my_env)
+				my_freelist(&(inf->my_env));
+			if (inf->my_history)
+				my_freelist(&(inf->my_history));
+			if (inf->my_alias)
+				my_freelist(&(inf->my_alias));
+			my_ffree(inf->my_envir);
+			inf->my_envir = NULL;
+			bfree((void **)inf->mycmduf);
+			if (inf->reader > 2)
+				close(inf->reader);
+			_putchar(MYBUFLUSH);
 			break;
 		default:
 			break;

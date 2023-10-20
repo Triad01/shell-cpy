@@ -1,115 +1,103 @@
 #include "shell.h"
 
-/**
- * _myexit - exits the shell
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- * Return: exits with a given exit status
- * (0) if info.argv[0] != "exit"
- */
-int _myexit(info_t *info)
+int my_myexit(info_t *inf)
 {
-	int exitcheck;
-	int result = -2; 
+	int exit;
+	int check = -2;
 
-	switch (info->argv[1] ? 1 : 0)
+	switch (inf->my_argv[1] ? 1 : 0)
 	{
-		case 1: 
-			exitcheck = _erratoi(info->argv[1]);
-			if (exitcheck == -1) {
-				info->status = 2;
-				print_error(info, "unacceptable number: ");
-				_eputs(info->argv[1]);
-				_eputchar('\n');
-				result = 1;
-			} else {
-				info->err_num = exitcheck;
-				result = -2;
-			}
-			break;
-		case 0:
-			info->err_num = -1;
-			result = -2;
-			break;
+	case 1:
+		exit = my_erratoi(inf->my_argv[1]);
+		if (exit == -1)
+		{
+			inf->my_status = 2;
+			my_printerror(inf, "unacceptable number: ");
+			my_eputs(inf->my_argv[1]);
+			my_eputchar('\n');
+			check = 1;
+		}
+		else
+		{
+			inf->my_errnum = exit;
+			check = -2;
+		}
+		break;
+	case 0:
+		inf->my_errnum = -1;
+		check = -2;
+		break;
 	}
 
-	return result;
+	return (check);
 }
 
-/**
- * _mycd - changes the current directory of the process
- * @info: Structure containing potential arguments.
- * Return: Always 0
- */
-int _mycd(info_t *info)
+int my_mycd(info_t *inf)
 {
-	char *s, *dir, buffer[1024];
-	int chdir_ret;
-	int result = 0;
+	char *sy, *direct, mybuffer[1024];
+	int chdireset;
+	int check = 0;
 
-	s = getcwd(buffer, 1024);
-	if (!s)
-		_puts("TODO: Handle getcwd failure here\n");
+	sy = getcwd(mybuffer, 1024);
+	if (!sy)
+		my_puts("TODO: Handle getcwd failure here\n");
 
-	switch (info->argv[1] ? 1 : (info->argv[1] && _strcmp(info->argv[1], "-") == 0) ? 2 : 0)
+	switch (inf->my_argv[1] ? 1 : (inf->my_argv[1] && my_strcmp(inf->my_argv[1], "-") == 0) ? 2
+																							: 0)
 	{
 		case 1:
-			dir = _getenv(info, "HOME=");
-			if (!dir)
-				chdir_ret = chdir((dir = _getenv(info, "PWD=")) ? dir : "/");
+			direct = my_getenv(inf, "HOME=");
+			if (!direct)
+				chdireset = chdir((direct = my_getenv(inf, "PWD=")) ? direct : "/");
 			else
-				chdir_ret = chdir(dir);
+				chdireset = chdir(direct);
 			break;
 
 		case 2:
-			if (!_getenv(info, "OLDPWD="))
+			if (!my_getenv(inf, "OLDPWD="))
 			{
-				_puts(s);
-				_putchar('\n');
-				result = 1;
+				my_puts(sy);
+				my_putchar('\n');
+				check = 1;
 			}
 			else
 			{
-				_puts(_getenv(info, "OLDPWD="));
-				_putchar('\n');
-				chdir_ret = chdir((dir = _getenv(info, "OLDPWD=")) ? dir : "/");
+				my_puts(my_getenv(inf, "OLDPWD="));
+				my_putchar('\n');
+				chdireset = chdir((direct = my_getenv(inf, "OLDPWD=")) ? direct : "/");
 			}
 			break;
 
 		default:
-			chdir_ret = chdir(info->argv[1]);
+			chdireset = chdir(inf->my_argv[1]);
 			break;
 	}
 
-	if (chdir_ret == -1)
+	if (chdireset == -1)
 	{
-		print_error(info, "can't cd to ");
-		_eputs(info->argv[1]);
-		_eputchar('\n');
+		my_printerror(inf, "can't cd to ");
+		my_eputs(inf->my_argv[1]);
+		my_eputchar('\n');
 	}
 	else
 	{
-		_setenv(info, "OLDPWD", _getenv(info, "PWD="));
-		_setenv(info, "PWD", getcwd(buffer, 1024));
+		my_setenv(inf, "OLDPWD", my_getenv(inf, "PWD="));
+		my_setenv(inf, "PWD", getcwd(mybuffer, 1024));
 	}
 
-	return result;
+	return (check);
 }
-/**
- * _myhelp - display help message
- * @info: Structure containing potential arguments.
- * Return: Always 0
- */
-int _myhelp(info_t *info)
-{
-	char **arg_array;
 
-	arg_array = info->argv;
-	_puts("Help function is not yet implemented.\n");
+int my_myhelp(info_t *inf)
+{
+	char **my_argarray;
+
+	my_argarray = inf->my_argv;
+	my_puts("Help function is not yet implemented.\n");
 
 	switch (0) {
 		case 0:
-			_puts(*arg_array);
+			my_puts(*my_argarray);
 			break;
 		default:
 			break;

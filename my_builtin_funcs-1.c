@@ -1,146 +1,116 @@
 #include "shell.h"
 
-/**
- * _myhistory - displays the history list, one command by line, preceded
- *              with line numbers, starting at 0.
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: Always 0
- */
-int _myhistory(info_t *info)
+int my_myhistory(info_t *inf)
 {
-	print_list(info->history);
+	my_printlist(inf->my_history);
 	return (0);
 }
-/**
- * unset_alias - sets alias to string
- * @info: parameter struct
- * @str: the string alias
- *
- * Return: Always 0 on success, 1 on error
- */
-int unset_alias(info_t *info, char *str)
-{
-	char *p = str;
-	int ret;
 
-	while (*p)
+int my_unsetalias(info_t *inf, char *strings)
+{
+	char *point = strings;
+	int real;
+
+	while (*point)
 	{
-		switch (*p)
+		switch (*point)
 		{
 			case '=':
-				*p = '\0';
-				ret = delete_node_at_index(&(info->alias),
-						get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
-				*p = '=';
-				return ret;
+				*point = '\0';
+				real = my_delete(&(inf->my_alias),
+								 my_getnodeindex(inf->my_alias, my_nodestartswith(inf->my_alias, strings, -1)));
+				*point = '=';
+				return real;
 			default:
-				p++;
+				point++;
 		}
 	}
 
-	return 1;
+	return (1);
 }
-/**
- * set_alias - sets an alias to a string
- * @info: the parameter struct
- * @str: the string alias
- *
- * Return: 0 on success, 1 on error
- */
-int set_alias(info_t *info, char *str)
-{
-	char *p = str;
-	int ret = 0;
-	char c;
 
-	while (*p)
+int my_setalias(info_t *inf, char *strings)
+{
+	char *point = strings;
+	int real = 0;
+	char a;
+
+	while (*point)
 	{
-		switch (*p)
+		switch (*point)
 		{
 			case '=':
-				c = *p;
-				*p = '\0';
-				if (!*++p)
-					ret = unset_alias(info, str);
+				a = *point;
+				*point = '\0';
+				if (!*++point)
+					real = my_unsetalias(inf, strings);
 				else
 				{
-					unset_alias(info, str);
-					ret = (add_node_end(&(info->alias), str, 0) == NULL);
+					my_unsetalias(inf, strings);
+					real = (my_addnodeend(&(inf->my_alias), strings, 0) == NULL);
 				}
-				*p = c;
-				return ret;
+				*point = a;
+				return real;
 			default:
-				p++;
+				point++;
 		}
 	}
 
-	return 1;
+	return (1);
 }
-/**
- * print_alias - prints an alias string
- * @node: the alias node
- *
- * Return: 0 on success, 1 on error
- */
-int print_alias(list_t *node)
-{
-	char *p, *a;
 
-	if (node)
+int my_printalias(list_t *noders)
+{
+	char *point, *b;
+
+	if (noders)
 	{
-		p = _strchr(node->str, '=');
-		for (a = node->str; a <= p; a++)
-			_putchar(*a);
-		_putchar('\'');
-		_puts(p + 1);
-		_puts("'\n");
-		return 0;
+		point = my_strchr(noders->string, '=');
+		for (b = noders->string; b <= point; b++)
+			my_putchar(*b);
+		my_putchar('\'');
+		my_puts(point + 1);
+		my_puts("'\n");
+		return (0);
 	}
-	return 1;
+	return (1);
 }
-/**
- * _myalias - mimics the alias builtin (man alias)
- * @info: Structure containing potential arguments. Used to maintain
- * constant function prototype.
- *
- * Return: Always 0
- */
-int _myalias(info_t *info)
-{
-	int i = 1;  // Start from the second argument (argv[1])
-	char *p = NULL;
 
-	if (info->argc == 1)
+int my_myalias(info_t *inf)
+{
+	int a = 1;
+	char *point = NULL;
+
+	if (inf->my_argc == 1)
 	{
-		list_t *node = info->alias;
-		while (node)
+		list_t *noder = inf->my_alias;
+		while (noder)
 		{
-			print_alias(node);
-			node = node->next;
+			my_printalias(noder);
+			noder = noder->nexts;
 		}
-		return 0;
+		return (0);
 	}
 
-	while (info->argv[i])
+	while (inf->my_argv[a])
 	{
-		p = _strchr(info->argv[i], '=');
+		point = my_strchr(inf->my_argv[a], '=');
 
-		if (p)
+		if (point)
 		{
-			set_alias(info, info->argv[i]);
+			my_setalias(inf, inf->my_argv[a]);
 		}
 		else
 		{
-			list_t *alias_node = node_starts_with(info->alias, info->argv[i], '=');
-			if (alias_node)
+			list_t *my_alias_noder = my_nodestartswith(inf->my_alias, inf->my_argv[a], '=');
+			if (my_alias_noder)
 			{
-				print_alias(alias_node);
+				my_printalias(my_alias_noder);
 			}
 		}
-		i++;
+		a++;
 	}
 
-	return 0;
+	return (0);
 }
 
