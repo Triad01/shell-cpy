@@ -1,11 +1,18 @@
 #include "shell.h"
+/**
+ * my_hsh - entry point
+ * @inf: info to the
+ * @avs: character
+ * Return: my_builtinret
+ */
 
+int my_hsh(info_t *inf, char **avs);
 int my_hsh(info_t *inf, char **avs)
 {
 	ssize_t in;
-	int my_builtinret;
+	int my_b;
 
-	for (in = 0, my_builtinret = 0; in != -1 && my_builtinret != -2; my_clearinfo(inf))
+	for (in = 0, my_b = 0; in != -1 && my_b != -2; my_clearinfo(inf))
 	{
 		if (my_interactiveness(inf))
 		{
@@ -17,9 +24,9 @@ int my_hsh(info_t *inf, char **avs)
 		if (in != -1)
 		{
 			my_setinfo(inf, avs);
-			my_builtinret = my_findbuiltin(inf);
+			my_b = my_findbuiltin(inf);
 
-			switch (my_builtinret)
+			switch (my_b)
 			{
 				case -1:
 					my_findcmd(inf);
@@ -43,7 +50,7 @@ int my_hsh(info_t *inf, char **avs)
 		exit(inf->my_status);
 	}
 
-	switch (my_builtinret)
+	switch (my_b)
 	{
 		case -2:
 			if (inf->my_errnum == -1)
@@ -53,10 +60,15 @@ int my_hsh(info_t *inf, char **avs)
 			exit(inf->my_errnum);
 			break;
 		default:
-			return (my_builtinret);
+			return (my_b);
 		}
 }
-
+/**
+ * my_findbuiltin - entry point
+ * @inf: info_t info
+ * Return: 0 or 1
+ */
+int my_findbuiltin(info_t *inf);
 int my_findbuiltin(info_t *inf)
 {
 	int in = 0;
@@ -85,7 +97,11 @@ int my_findbuiltin(info_t *inf)
 
 	return (myret);
 }
-
+/**
+ * my_findcmd - finding command
+ * @inf: info checker
+ */
+void my_findcmd(info_t *inf);
 void my_findcmd(info_t *inf)
 {
 	char *pathers = NULL;
@@ -125,7 +141,11 @@ void my_findcmd(info_t *inf)
 	}
 	else
 	{
-		switch (my_interactiveness(inf) || my_getenv(inf, "PATH=") || inf->my_argv[0][0] == '/')
+	switch (
+			my_interactiveness(inf) ||
+			my_getenv(inf, "PATH=") ||
+			inf->my_argv[0][0] == '/'
+			)
 		{
 			case 1:
 				if (my_iscmd(inf, inf->my_argv[0]))
@@ -142,7 +162,11 @@ void my_findcmd(info_t *inf)
 		}
 	}
 }
-
+/**
+ * my_forkcmd - forking command
+ * @inf: info at info_t
+ */
+void my_forkcmd(info_t *inf);
 void my_forkcmd(info_t *inf)
 {
 	pid_t mychild_pid;

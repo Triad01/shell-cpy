@@ -1,5 +1,11 @@
 #include "shell.h"
-
+/**
+ * my_memset - entry point
+ * @sy: char sy
+ * @by: vahr by
+ * @ny: int ny
+ * Return: sy
+ */
 char *my_memset(char *sy, char by, unsigned int ny)
 {
 	unsigned int in = 0;
@@ -14,7 +20,10 @@ char *my_memset(char *sy, char by, unsigned int ny)
 
 	return (sy);
 }
-
+/**
+ * my_ffree - entry point
+ * @pap: my pap
+ */
 void my_ffree(char **pap)
 {
 	int in;
@@ -30,7 +39,13 @@ void my_ffree(char **pap)
 
 	free(ab);
 }
-
+/**
+ * my_realloc - entry
+ * @myold_size: old size
+ * @mynew_size: new size
+ * @myptr: pointer
+ * Return: pin
+ */
 void *my_realloc(void *myptr, unsigned int myold_size, unsigned int mynew_size)
 {
 	char *pin;
@@ -38,7 +53,7 @@ void *my_realloc(void *myptr, unsigned int myold_size, unsigned int mynew_size)
 	switch (!myptr)
 	{
 		case 1:
-			return malloc(mynew_size);
+			return (malloc(mynew_size));
 		default:
 			break;
 	}
@@ -46,7 +61,7 @@ void *my_realloc(void *myptr, unsigned int myold_size, unsigned int mynew_size)
 	switch (!mynew_size)
 	{
 		case 1:
-			return free(myptr), NULL;
+			return (free(myptr), NULL);
 		default:
 			break;
 	}

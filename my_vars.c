@@ -1,5 +1,11 @@
 #include "shell.h"
-
+/**
+ * my_ischain - entry
+ * @buffs: buffers
+ * @pin: pins
+ * @infos: info
+ * Return: 1 or 0
+ */
 int my_ischain(info_t *infos, char *buffs, size_t *pin)
 {
 	size_t a = *pin;
@@ -34,8 +40,15 @@ int my_ischain(info_t *infos, char *buffs, size_t *pin)
 	*pin = a;
 	return (1);
 }
-
-void my_checkchain(info_t *inf, char *buffs, size_t *pin, size_t in, size_t length)
+/**
+ * my_checkchain - entry
+ * @inf: info
+ * @bfs: buffers
+ * @pin: pin
+ * @in: integer
+ * @l: lengths
+ */
+void my_checkchain(info_t *inf, char *bfs, size_t *pin, size_t in, size_t l)
 {
 	size_t a = *pin;
 
@@ -44,30 +57,33 @@ void my_checkchain(info_t *inf, char *buffs, size_t *pin, size_t in, size_t leng
 	case MYCMDAND:
 		if (inf->my_status)
 		{
-			buffs[in] = 0;
-			a = length;
+			bfs[in] = 0;
+			a = l;
 		}
 		break;
 	case MYCMDOR:
 		if (!inf->my_status)
 		{
-			buffs[in] = 0;
-			a = length;
+			bfs[in] = 0;
+			a = l;
 		}
 		break;
 	}
 
 	*pin = a;
 }
-
+/**
+ * my_replacealias - entry
+ * @inf: inner info
+ * Return: 1 or 0
+ */
 int my_replacealias(info_t *inf)
 {
 	int in = 0;
 	list_t *noder;
 	char *pin;
 
-	do
-	{
+	do {
 		noder = my_nodestartswith(inf->my_alias, inf->my_argv[0], '=');
 		if (!noder)
 			return (0);
@@ -87,7 +103,11 @@ int my_replacealias(info_t *inf)
 
 	return (1);
 }
-
+/**
+ * my_replacevars - entry
+ * @infos: informa
+ * Return: 1 or 0
+ */
 int my_replacevars(info_t *infos)
 {
 	int in = 0;
@@ -129,7 +149,12 @@ int my_replacevars(info_t *infos)
 
 	return (0);
 }
-
+/**
+ * my_replacestring - entry
+ * @older: string old
+ * @newer: strings new
+ * Return: 0 and 1
+ */
 int my_replacestring(char **older, char *newer)
 {
 	free(*older);

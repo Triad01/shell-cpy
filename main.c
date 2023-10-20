@@ -1,5 +1,10 @@
 #include "shell.h"
-
+/**
+ * main - entry
+ * @ac: ac args
+ * @avs: arguments
+ * Return: exit status
+ */
 int main(int ac, char **avs)
 {
 	info_t inf = MYINFOINIT;
