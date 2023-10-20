@@ -1,5 +1,13 @@
 #include "shell.h"
+/**
+ * my_inputbuffers - buffers the chained commands
+ * @inf: first parameter
+ * @buffer: contains address of the buffer
+ * @length: cotains address of length variable
+ * Return: bytes read
+ */
 
+ssize_t my_inputbuffers(info_t *inf, char **buffer, size_t *length);
 ssize_t my_inputbuffers(info_t *inf, char **buffer, size_t *length)
 {
 	ssize_t real = 0;
@@ -43,7 +51,11 @@ ssize_t my_inputbuffers(info_t *inf, char **buffer, size_t *length)
 
 	return (real);
 }
-
+/**
+ * my_getinput - gets input from stream
+ * @inf: parameter struct
+ * Return: always an unsigned int
+ */
 ssize_t my_getinput(info_t *inf)
 {
 	static char *buffer;
@@ -54,7 +66,7 @@ ssize_t my_getinput(info_t *inf)
 	switch (real = my_inputbuffers(inf, &buffer, &length))
 	{
 	case -1:
-		return -1;
+		return (-1);
 	default:
 		break;
 	}
@@ -88,7 +100,13 @@ ssize_t my_getinput(info_t *inf)
 	*buf = buffer;
 	return (real);
 }
-
+/**
+ * my_readbuf - reads a items of a buffer
+ * @inf: parameter struct
+ * @buffer: buffer
+ * @in: size
+ * Return: always an unsigned int
+ */
 ssize_t my_readbuf(info_t *inf, char *buffer, size_t *in)
 {
 	ssize_t real = 0;
@@ -106,7 +124,13 @@ ssize_t my_readbuf(info_t *inf, char *buffer, size_t *in)
 		return (0);
 	}
 }
-
+/**
+ * my_getline - gets the next line of input from an input stream
+ * @inf: parameter struct
+ * @pointer: address of pointer to buffer
+ * @len: size of allocated pointer buffer
+ * Return: always an integer
+ */
 int my_getline(info_t *inf, char **pointer, size_t *len)
 {
 	static char buffer[MYREADSIZE];
@@ -165,7 +189,10 @@ int my_getline(info_t *inf, char **pointer, size_t *len)
 	*pointer = point;
 	return (c);
 }
-
+/**
+ * my_sigintHandler - blocks ctrl-C functions
+ * @mysigum: the signal number
+ */
 void my_sigintHandler(__attribute__((unused)) int mysigum)
 {
 	my_puts("\n");
