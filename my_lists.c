@@ -9,10 +9,11 @@
  */
 list_t *myaddnode(list_t **hd, const char *string, int nums)
 {
+	list_t *mynewhead;
 	if (!hd)
 		return (NULL);
 
-	list_t *mynewhead = malloc(sizeof(list_t));
+	mynewhead = malloc(sizeof(list_t));
 
 	if (!mynewhead)
 		return (NULL);

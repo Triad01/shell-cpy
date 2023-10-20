@@ -28,17 +28,18 @@ char *my_strcpy(char *destin, char *source)
  */
 char *my_strdup(const char *string)
 {
-	int in;
+	char *retset;
+	int in, len;
 
 	if (string == NULL)
 		return (NULL);
 
-	int len = 0;
+	len = 0;
 
 	while (string[len])
 		len++;
 
-	char *retset = malloc(sizeof(char) * (len + 1));
+	retset = malloc(sizeof(char) * (len + 1));
 
 	if (retset == NULL)
 		return (NULL);
