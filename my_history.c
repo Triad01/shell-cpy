@@ -8,11 +8,12 @@ char *my_gethistoryfile(info_t *inf);
 char *my_gethistoryfile(info_t *inf)
 {
 	char *direct = my_getenv(inf, "HOME=");
+	char *buff;
 
 	if (!direct)
 		return (NULL);
 
-	char *buff = malloc(my_strlen(direct) + my_strlen(MYHISTFILE) + 2);
+	buff = malloc(my_strlen(direct) + my_strlen(MYHISTFILE) + 2);
 
 	if (!buff)
 		return (NULL);

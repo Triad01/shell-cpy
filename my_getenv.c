@@ -18,12 +18,14 @@ char **my_getenvironment(info_t *inf)
  */
 int my_unsetenv(info_t *inf, char *myvarable)
 {
+	size_t o;
+	char *p;
+	list_t *noder = inf->my_env;
+
 	if (!inf->my_env || !myvarable)
 		return (0);
 
-	size_t o = 0;
-	list_t *noder = inf->my_env;
-	char *p;
+
 
 	for (o = 0; noder; noder = noder->nexts, o++)
 	{
@@ -49,6 +51,7 @@ int my_setenv(info_t *inf, char *variable, char *valueable)
 {
 	char *buffer = NULL;
 	char *point;
+	size_t o;
 
 	if (!variable || !valueable)
 		return (0);
@@ -62,7 +65,7 @@ int my_setenv(info_t *inf, char *variable, char *valueable)
 
 	list_t *noder = inf->my_env;
 
-	for (size_t o = 0; noder; noder = noder->nexts, o++)
+	for (o = 0; noder; noder = noder->nexts, o++)
 	{
 		point = my_startswith(noder->string, variable);
 		if (point && *point == '=')
